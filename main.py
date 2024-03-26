@@ -84,5 +84,4 @@ trial_balance = TrialBalance(
 
 
 # Print JSON
-# print(trial_balance.journal_entry_lines[0].model_dump_json(indent=4, by_alias=True))
 print(trial_balance.model_dump_json(indent=4, by_alias=True))
