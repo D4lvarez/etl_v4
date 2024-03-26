@@ -1,4 +1,4 @@
-import os
+import os, sys
 
 import pandas as pd
 from pymysql.cursors import DictCursor
@@ -70,18 +70,23 @@ def map_account_codes(entry_lines: list[EntryLine]) -> None:
     connection.close()
 
 
-data_header = get_header(file_path)
-data_entry_lines = get_entry_lines(file_path)
-map_account_codes(entry_lines=data_entry_lines)
+if __name__ == "__main__":
+    try:
+        data_header = get_header(file_path)
+        data_entry_lines = get_entry_lines(file_path)
+        map_account_codes(entry_lines=data_entry_lines)
 
-trial_balance = TrialBalance(
-    period=data_header["period"],
-    transaction_code=data_header["report_type"],
-    company_code=data_header["company_code"],
-    use_auto_storno=data_header["use_auto_storno"],
-    journal_entry_lines=data_entry_lines,
-)
+        trial_balance = TrialBalance(
+            period=data_header["period"],
+            transaction_code=data_header["report_type"],
+            company_code=data_header["company_code"],
+            use_auto_storno=data_header["use_auto_storno"],
+            journal_entry_lines=data_entry_lines,
+        )
 
-
-# Print JSON
-print(trial_balance.model_dump_json(indent=4, by_alias=True))
+        # Print JSON
+        print(trial_balance.model_dump_json(indent=4, by_alias=True))
+        sys.exit(0)
+    except Exception as e:
+        print(str(e))
+        sys.exit(1)
