@@ -31,8 +31,8 @@ def get_entry_lines(path: str) -> list[EntryLine]:
         entry_line = EntryLine(
             dimensions=entry[0],
             min_account_code=entry[0],
-            debit=float(entry[3]) * 10,
-            credit=float(entry[4]) * 10,
+            debit=entry[1],
+            credit=entry[2],
             fc_debit=entry[3],
             fc_credit=entry[4],
             fc_currency=entry[5],
